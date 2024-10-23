@@ -8,7 +8,7 @@ const TollBar = () => {
           <NavLink className="text-decoration-none text-black" to="/">Home</NavLink>
         </li>
         <li className="me-3">
-          <NavLink className="text-decoration-none text-black" to="/add">Add</NavLink>
+          <NavLink className="text-decoration-none text-black" to="/post/add">Add</NavLink>
         </li>
         <li className="me-3">
           <NavLink className="text-decoration-none text-black" to="/about">About us</NavLink>

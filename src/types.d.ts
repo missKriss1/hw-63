@@ -4,3 +4,16 @@ export interface Iposts {
   text: string;
   time: string;
 }
+
+export interface IAuthor {
+  title: string;
+  text: string;
+}
+
+export interface IPostAPI {
+  [key: string]: Iposts;
+}
+
+export interface IPosrAddMutation {
+  author: IAuthor;
+}

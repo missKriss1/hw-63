@@ -1,14 +1,43 @@
 import { useState } from 'react';
-import { Iposts } from '../../types';
 import * as React from 'react';
+import axoisAPI from '../../axoisAPI.ts';
+import { IPosrAddMutation } from '../../types';
+import { useNavigate } from 'react-router-dom';
+
+const initialStateToAuthor ={
+  title:'',
+  text:'',
+};
 
 const Add = () => {
-  const [posts, setPosts] = useState<Iposts[]>([]);
-  const[inputPost, setInputPost] = useState('');
-  const [text, setText] = useState('');
+  const [author, setAuthor] = useState(initialStateToAuthor);
+  const navigate = useNavigate();
 
-  const savePost = (e: React.FormEvent<HTMLFormElement>) =>{
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const {name, value} = e.target;
+    setAuthor(prevState => {
+      return{
+        ...prevState,
+        [name]: value,
+      }
+    })
+  }
+  const savePost = async (e: React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault();
+
+    const postAdd = {
+      title: author.title,
+      text: author.text,
+    };
+
+    try{
+      await axoisAPI.post<IPosrAddMutation>('posts.json', {...postAdd, time: new Date().toISOString()});
+    }catch (e){
+      console.error(e);
+    }
+    console.log(postAdd);
+    setAuthor({...initialStateToAuthor});
+    navigate('/');
   }
   return (
     <div className="w-50">
@@ -18,16 +47,18 @@ const Add = () => {
         <input
           className="form-control"
           type="text"
-          value={inputPost}
-          onChange={(e) => setInputPost(e.target.value)}
+          name="title"
+          value={author.title}
+          onChange={onChange}
         />
         <label className="form-label mt-3">Description</label>
         <textarea
           className="form-control"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          name="text"
+          value={author.text}
+          onChange={onChange}
         />
-        <button className="btn btn-primary" type="submit">Save</button>
+        <button className="btn btn-primary mt-2" type="submit">Save</button>
       </form>
 
     </div>
