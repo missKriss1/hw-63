@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Iposts } from '../../types';
-import { useNavigate, useParams } from 'react-router-dom';
-import axoisAPI from '../../axoisAPI.ts';
-import { NavLink } from 'react-router-dom';
+import { useCallback, useEffect, useState } from "react";
+import { Iposts } from "../../types";
+import { useNavigate, useParams } from "react-router-dom";
+import axoisAPI from "../../axoisAPI.ts";
+import { NavLink } from "react-router-dom";
 
 const FullItemView = () => {
   const [post, setPost] = useState<Iposts | null>(null);
@@ -23,18 +23,16 @@ const FullItemView = () => {
   }, [params.postId, fetchOnePost]);
 
   const deletePost = async (id: string | undefined) => {
-
-    console.log('work');
+    console.log("work");
     try {
       if (id) {
-        console.log('work');
+        console.log("work");
         await axoisAPI.delete<Iposts>(`posts/${id}.json`);
       }
-      navigate('/');
-    }catch (e) {
-      console.log(e)
+      navigate("/");
+    } catch (e) {
+      console.log(e);
     }
-
   };
 
   return (
@@ -44,10 +42,21 @@ const FullItemView = () => {
         <p>Text: {post?.text}</p>
         <strong>Time: {post?.time}</strong>
       </div>
-      <hr/>
+      <hr />
       <div className="mt-2">
-        <NavLink className="text-decoration-none text-black" to={`/post/${params.postId}/edit`}>Edit</NavLink>
-        <button className="btn btn-primary ms-5" type="button" onClick={() => deletePost(params.postId)}>Delete</button>
+        <NavLink
+          className="text-decoration-none text-black"
+          to={`/post/${params.postId}/edit`}
+        >
+          Edit
+        </NavLink>
+        <button
+          className="btn btn-primary ms-5"
+          type="button"
+          onClick={() => deletePost(params.postId)}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );

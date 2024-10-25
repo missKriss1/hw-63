@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import axoisAPI from '../../axoisAPI.ts';
-import { Iposts } from '../../types';
+import * as React from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axoisAPI from "../../axoisAPI.ts";
+import { Iposts } from "../../types";
 
 const Edit = () => {
   const [post, setPost] = useState<Iposts | null>(null);
@@ -22,13 +22,13 @@ const Edit = () => {
     }
   }, [params.postId, fetchOnePost]);
 
-  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChangeInput = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     if (!post) return;
 
-
-
     const { name, value } = e.target;
-    setPost(prevState => {
+    setPost((prevState) => {
       if (prevState) {
         return {
           ...prevState,
@@ -48,13 +48,12 @@ const Edit = () => {
       } catch (error) {
         console.error(error);
       }
-    }else{
-      alert("Fill in the fields")
+    } else {
+      alert("Fill in the fields");
     }
   };
 
   return (
-
     post && (
       <div className="w-50">
         <h3>Edit post</h3>
@@ -74,7 +73,9 @@ const Edit = () => {
             value={post.text}
             onChange={onChangeInput}
           />
-          <button className="btn btn-primary mt-2" type="submit">Edit</button>
+          <button className="btn btn-primary mt-2" type="submit">
+            Edit
+          </button>
         </form>
       </div>
     )

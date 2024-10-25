@@ -1,28 +1,30 @@
-import { useState } from 'react';
-import * as React from 'react';
-import axoisAPI from '../../axoisAPI.ts';
-import { IPosrAddMutation } from '../../types';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import * as React from "react";
+import axoisAPI from "../../axoisAPI.ts";
+import { IPosrAddMutation } from "../../types";
+import { useNavigate } from "react-router-dom";
 
-const initialStateToAuthor ={
-  title:'',
-  text:'',
+const initialStateToAuthor = {
+  title: "",
+  text: "",
 };
 
 const Add = () => {
   const [author, setAuthor] = useState(initialStateToAuthor);
   const navigate = useNavigate();
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {name, value} = e.target;
-    setAuthor(prevState => {
-      return{
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setAuthor((prevState) => {
+      return {
         ...prevState,
         [name]: value,
-      }
-    })
-  }
-  const savePost = async (e: React.FormEvent<HTMLFormElement>) =>{
+      };
+    });
+  };
+  const savePost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const postAdd = {
@@ -30,19 +32,22 @@ const Add = () => {
       text: author.text,
     };
 
-    if(author.title.trim() !== "" && author.text.trim() !== ""){
-      try{
-        await axoisAPI.post<IPosrAddMutation>('posts.json', {...postAdd, time: new Date().toISOString()});
-      }catch (e){
+    if (author.title.trim() !== "" && author.text.trim() !== "") {
+      try {
+        await axoisAPI.post<IPosrAddMutation>("posts.json", {
+          ...postAdd,
+          time: new Date().toISOString(),
+        });
+      } catch (e) {
         console.error(e);
       }
       console.log(postAdd);
-      setAuthor({...initialStateToAuthor});
-      navigate('/');
-    }else{
-      alert('Fill in the fields');
+      setAuthor({ ...initialStateToAuthor });
+      navigate("/");
+    } else {
+      alert("Fill in the fields");
     }
-  }
+  };
   return (
     <>
       <div className="w-50">
@@ -63,9 +68,10 @@ const Add = () => {
             value={author.text}
             onChange={onChange}
           />
-          <button className="btn btn-primary mt-2" type="submit">Save</button>
+          <button className="btn btn-primary mt-2" type="submit">
+            Save
+          </button>
         </form>
-
       </div>
     </>
   );
