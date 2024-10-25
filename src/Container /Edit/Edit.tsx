@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axoisAPI from '../../axoisAPI.ts';
 import { Iposts } from '../../types';
 
-const ReadMore = () => {
+const Edit = () => {
   const [post, setPost] = useState<Iposts | null>(null);
   const navigate = useNavigate();
   const params = useParams<{ postId: string }>();
@@ -25,6 +25,8 @@ const ReadMore = () => {
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (!post) return;
 
+
+
     const { name, value } = e.target;
     setPost(prevState => {
       if (prevState) {
@@ -39,17 +41,20 @@ const ReadMore = () => {
 
   const savePost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (post) {
+    if (post?.title.trim() !== "" && post?.text !== "") {
       try {
         await axoisAPI.put(`posts/${params.postId}.json`, post);
         navigate(`/`);
       } catch (error) {
         console.error(error);
       }
+    }else{
+      alert("Fill in the fields")
     }
   };
 
   return (
+
     post && (
       <div className="w-50">
         <h3>Edit post</h3>
@@ -76,4 +81,4 @@ const ReadMore = () => {
   );
 };
 
-export default ReadMore;
+export default Edit;

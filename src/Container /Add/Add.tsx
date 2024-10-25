@@ -30,38 +30,44 @@ const Add = () => {
       text: author.text,
     };
 
-    try{
-      await axoisAPI.post<IPosrAddMutation>('posts.json', {...postAdd, time: new Date().toISOString()});
-    }catch (e){
-      console.error(e);
+    if(author.title.trim() !== "" && author.text.trim() !== ""){
+      try{
+        await axoisAPI.post<IPosrAddMutation>('posts.json', {...postAdd, time: new Date().toISOString()});
+      }catch (e){
+        console.error(e);
+      }
+      console.log(postAdd);
+      setAuthor({...initialStateToAuthor});
+      navigate('/');
+    }else{
+      alert('Fill in the fields');
     }
-    console.log(postAdd);
-    setAuthor({...initialStateToAuthor});
-    navigate('/');
   }
   return (
-    <div className="w-50">
-      <h3>Add new post</h3>
-      <form onSubmit={savePost}>
-        <label className="form-label mt-3">Title</label>
-        <input
-          className="form-control"
-          type="text"
-          name="title"
-          value={author.title}
-          onChange={onChange}
-        />
-        <label className="form-label mt-3">Description</label>
-        <textarea
-          className="form-control"
-          name="text"
-          value={author.text}
-          onChange={onChange}
-        />
-        <button className="btn btn-primary mt-2" type="submit">Save</button>
-      </form>
+    <>
+      <div className="w-50">
+        <h3>Add new post</h3>
+        <form onSubmit={savePost}>
+          <label className="form-label mt-3">Title</label>
+          <input
+            className="form-control"
+            type="text"
+            name="title"
+            value={author.title}
+            onChange={onChange}
+          />
+          <label className="form-label mt-3">Description</label>
+          <textarea
+            className="form-control"
+            name="text"
+            value={author.text}
+            onChange={onChange}
+          />
+          <button className="btn btn-primary mt-2" type="submit">Save</button>
+        </form>
 
-    </div>
+      </div>
+    </>
   );
 };
 
